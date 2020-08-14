@@ -2,6 +2,7 @@ import android.content.IntentSender
 import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gmshmsdemo.LocationOperations
 import com.example.gmshmsdemo.MapOperations
 import com.example.gmshmsdemo.utils.UtilsAndroid
 import com.huawei.hmf.tasks.OnFailureListener
@@ -10,7 +11,7 @@ import com.huawei.hms.common.ResolvableApiException
 import com.huawei.hms.location.*
 
 
-class LocationHelper {
+class LocationHelper:LocationOperations {
 
     private var settingsClient: SettingsClient?
     private var fusedLocationClient: FusedLocationProviderClient?
@@ -41,7 +42,7 @@ class LocationHelper {
             }
     }
 
-    fun checkLocationSolver(
+    override fun checkLocationSolver(
         resolve: Boolean,
         activity: AppCompatActivity,
         onSuccess: () -> Unit,
@@ -76,7 +77,7 @@ class LocationHelper {
         }
     }
 
-    fun removeCallback(){
+    override fun removeCallback(){
         fusedLocationClient!!.removeLocationUpdates(mLocationCallback)
             .addOnSuccessListener {
 

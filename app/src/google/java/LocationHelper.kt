@@ -4,6 +4,7 @@ import android.location.Location
 import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gmshmsdemo.LocationOperations
 import com.example.gmshmsdemo.MapOperations
 import com.example.gmshmsdemo.model.LandMarkObject
 import com.example.gmshmsdemo.utils.UtilsAndroid
@@ -12,7 +13,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 
-class LocationHelper{
+class LocationHelper:LocationOperations{
 
     private var landMarkObject: LandMarkObject?=null
     private  var settingsClient: SettingsClient?
@@ -45,7 +46,7 @@ class LocationHelper{
 
     }
 
-    fun checkLocationSolver(resolve:Boolean,
+    override fun checkLocationSolver(resolve:Boolean,
                             activity: AppCompatActivity,
                             onSuccess: () -> Unit,
                             onError: () -> Unit){
@@ -76,7 +77,7 @@ class LocationHelper{
         }
     }
 
-    fun removeCallback(){
+    override fun removeCallback(){
         fusedLocationClient.removeLocationUpdates(mLocationCallback)
             .addOnSuccessListener {
 
