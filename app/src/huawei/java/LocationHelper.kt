@@ -14,6 +14,7 @@ class LocationHelper {
 
     private var settingsClient: SettingsClient?
     private var fusedLocationClient: FusedLocationProviderClient?
+    private val mLocationCallback:LocationCallback
 
     private val locationRequest = LocationRequest.create().apply {
         priority = LocationRequest.PRIORITY_HD_ACCURACY
@@ -24,7 +25,6 @@ class LocationHelper {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         settingsClient = LocationServices.getSettingsClient(activity)
 
-        val mLocationCallback: LocationCallback
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 mapHelper.animateCamera(locationResult.lastLocation)
@@ -74,6 +74,16 @@ class LocationHelper {
                 onSuccess()
             }
         }
+    }
+
+    fun removeCallback(){
+        fusedLocationClient!!.removeLocationUpdates(mLocationCallback)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 
 

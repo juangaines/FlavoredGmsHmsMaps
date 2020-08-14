@@ -134,6 +134,10 @@ class MapsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mLocation.removeCallback()
+    }
 
     companion object{
         val TAG = MapsActivity::class.java.simpleName
