@@ -31,12 +31,10 @@ class LocationHelper{
 
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                if (locationResult != null) {
-                    mapHelper.animateCamera(locationResult.lastLocation)
-                }
+                mapHelper.animateCamera(locationResult.lastLocation)
             }
         }
-        fusedLocationClient!!
+        fusedLocationClient
             .requestLocationUpdates(locationRequest, mLocationCallback, Looper.getMainLooper())
             .addOnSuccessListener {
                 //Processing when the API call is successful.
@@ -79,7 +77,7 @@ class LocationHelper{
     }
 
     fun removeCallback(){
-        fusedLocationClient!!.removeLocationUpdates(mLocationCallback)
+        fusedLocationClient.removeLocationUpdates(mLocationCallback)
             .addOnSuccessListener {
 
             }
