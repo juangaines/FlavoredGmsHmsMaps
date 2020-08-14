@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GmsHmsDemo</string>
+    <string name="go_to_map">Go to map</string>
+    <string name="normal_map">Normal</string>
+    <string name="none_data">No data</string>
+    <string name="route">Route</string>
+    <string name="walk">Walk</string>
+    <string name="cycling">Cyclyng</string>
+    <string name="drive">Drive</string>
+    <string name="clear">Clear</string>
+</resources>

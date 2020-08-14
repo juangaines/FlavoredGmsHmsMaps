@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+
+        <TextView
+            android:id="@+id/titleAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/route"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/initial_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/arrival_destination"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleAdd"
+            tools:text="lat: 4.566234234234242342342343\n lon: 48.345782342342342344234234" />
+
+        <TextView
+            android:id="@+id/arrival_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/initial_destination"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/initial_destination"
+            app:layout_constraintTop_toTopOf="@+id/initial_destination"
+            tools:text="lat: 4.5623423423234246\n lon: 48.34523423423478" />
+
+        <Button
+            android:id="@+id/walk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/walk"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/drive"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initial_destination" />
+
+        <Button
+            android:id="@+id/cycling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="@string/cycling"
+            app:layout_constraintBottom_toBottomOf="@+id/drive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/drive"
+            app:layout_constraintTop_toTopOf="@+id/drive" />
+
+        <Button
+            android:id="@+id/drive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drive"
+            app:layout_constraintBottom_toBottomOf="@+id/walk"
+            app:layout_constraintEnd_toStartOf="@+id/cycling"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/walk"
+            app:layout_constraintTop_toTopOf="@+id/walk" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
