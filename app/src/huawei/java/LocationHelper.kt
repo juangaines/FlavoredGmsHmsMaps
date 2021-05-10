@@ -28,7 +28,7 @@ class LocationHelper:LocationOperations {
 
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                mapHelper.animateCamera(locationResult.lastLocation)
+                //mapHelper.animateCamera(locationResult.lastLocation)
             }
         }
 

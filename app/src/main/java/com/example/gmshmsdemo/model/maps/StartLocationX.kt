@@ -1,4 +1,4 @@
-package com.example.gmshmsdemo.model
+package com.example.gmshmsdemo.model.maps
 
 data class StartLocationX(
     val lat: Double,

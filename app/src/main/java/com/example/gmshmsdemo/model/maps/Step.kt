@@ -1,4 +1,8 @@
-package com.example.gmshmsdemo.model
+package com.example.gmshmsdemo.model.maps
+
+import com.example.gmshmsdemo.model.maps.EndLocationX
+import com.example.gmshmsdemo.model.maps.Polyline
+import com.example.gmshmsdemo.model.maps.StartLocationX
 
 data class Step(
     val action: String,

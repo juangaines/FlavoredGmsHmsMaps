@@ -3,20 +3,18 @@ import android.location.Location
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-
 import com.example.gmshmsdemo.MapOperations
 import com.example.gmshmsdemo.R
-import com.example.gmshmsdemo.model.LandMarkObject
-import com.example.gmshmsdemo.model.Polyline
+import com.example.gmshmsdemo.model.maps.LandMarkObject
+import com.example.gmshmsdemo.model.maps.Polyline
 import com.example.gmshmsdemo.utils.UtilsAndroid
-import com.huawei.hms.maps.CameraUpdate
 import com.huawei.hms.maps.CameraUpdateFactory
-
 import com.huawei.hms.maps.HuaweiMap
 import com.huawei.hms.maps.HuaweiMap.MAP_TYPE_NONE
 import com.huawei.hms.maps.HuaweiMap.MAP_TYPE_NORMAL
 import com.huawei.hms.maps.SupportMapFragment
 import com.huawei.hms.maps.model.*
+import java.util.*
 
 class MapHelper : MapOperations {
 
@@ -40,25 +38,25 @@ class MapHelper : MapOperations {
         mapFragment.getMapAsync { huaweiMap ->
             map = huaweiMap
             map.setMarkersClustering(true)
-            map.setOnMapClickListener { latLong ->
-                this@MapHelper.addLocationForMarker(
-                    LandMarkObject(
-                        latLong.latitude,
-                        latLong.longitude
-                    )
-                )
-                this.addMarker(
-                    latLong.latitude,
-                    latLong.longitude,
-                    "Marker",
-                    "lat:${latLong.latitude} lon:${latLong.longitude}"
-                )
-            }
+            /* map.setOnMapClickListener { latLong ->
+                 this@MapHelper.addLocationForMarker(
+                     LandMarkObject(
+                         latLong.latitude,
+                         latLong.longitude
+                     )
+                 )
+                 this.addMarker(
+                     latLong.latitude,
+                     latLong.longitude,
+                     "Marker",
+                     "lat:${latLong.latitude} lon:${latLong.longitude}"
+                 )
+             }*/
             map.setMinZoomPreference(6.0f);
             map.setMaxZoomPreference(20.0f);
-            this.setPoiClick()
-            this.addGroundOverlay()
-            map.isTrafficEnabled=true
+            //this.setPoiClick()
+            //this.addGroundOverlay()
+            map.isTrafficEnabled = true
         }
 
         mapFragment.retainInstance = true
@@ -67,6 +65,11 @@ class MapHelper : MapOperations {
     override fun addMarker(lat: Double, long: Double, title: String, snippet: String?) {
         val marker = MarkerOptions().position(LatLng(lat, long)).title(title).clusterable(true)
         map.addMarker(marker).snippet = snippet
+        addLocationForMarker(
+            LandMarkObject(
+                lat, long
+            )
+        )
     }
 
     override fun setMapType(type: Int) {
@@ -97,13 +100,23 @@ class MapHelper : MapOperations {
     override fun setOnMapLongClickListener(callback: (LandMarkObject) -> Unit) {
 
         map.setOnMapLongClickListener {
-            callback(LandMarkObject(it.latitude, it.longitude))
+            callback(
+                LandMarkObject(
+                    it.latitude,
+                    it.longitude
+                )
+            )
         }
     }
 
     override fun setOnMapClickListener(callback: (LandMarkObject) -> Unit) {
         map.setOnMapClickListener {
-            callback(LandMarkObject(it.latitude, it.longitude))
+            callback(
+                LandMarkObject(
+                    it.latitude,
+                    it.longitude
+                )
+            )
         }
     }
 
@@ -143,9 +156,16 @@ class MapHelper : MapOperations {
     }
 
     override fun animateCamera(location: Location) {
-       if (this::map.isInitialized){
-           map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,location.longitude),map.cameraPosition.zoom ))
-       }
+        if (this::map.isInitialized) {
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        location.latitude,
+                        location.longitude
+                    ), map.cameraPosition.zoom
+                )
+            )
+        }
     }
 
     override fun clear() {
@@ -169,6 +189,14 @@ class MapHelper : MapOperations {
             }
             else -> activity.onOptionsItemSelected(item)
         }
+    }
+
+    fun moveCameraWithBounds(coordinates: ArrayList<LandMarkObject>) {
+        val latLng = coordinates.map { landMark ->
+            LatLng(landMark.latitude, landMark.longitude)
+        }
+        val latLngBounds = LatLngBounds(latLng[0], latLng[1])
+        map.setLatLngBoundsForCameraTarget(latLngBounds)
     }
 
     companion object {

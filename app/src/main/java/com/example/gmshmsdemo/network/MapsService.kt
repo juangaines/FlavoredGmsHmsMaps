@@ -1,7 +1,7 @@
 package com.example.gmshmsdemo.network
 
-import com.example.gmshmsdemo.model.RouteQuery
-import com.example.gmshmsdemo.model.RouteResponse
+import com.example.gmshmsdemo.model.maps.RouteBody
+import com.example.gmshmsdemo.model.maps.RouteResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -13,7 +13,7 @@ interface MapsService {
     suspend fun getRoute(
         @Path("type") path:String,
         @Query ("key")key:String,
-        @Body route: RouteQuery
+        @Body route: RouteBody
     ): RouteResponse
 
 }

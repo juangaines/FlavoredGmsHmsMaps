@@ -3,8 +3,8 @@ package com.example.gmshmsdemo.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.gmshmsdemo.BuildConfig
-import com.example.gmshmsdemo.model.RouteQuery
-import com.example.gmshmsdemo.model.RouteResponse
+import com.example.gmshmsdemo.model.maps.RouteBody
+import com.example.gmshmsdemo.model.maps.RouteResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -42,7 +42,7 @@ class Network {
 
 
     suspend fun getRoute(
-        route: RouteQuery,
+        route: RouteBody,
         type:String,
         onSuccess: (RouteResponse) -> Unit = {},
         onError: (String) -> Unit = {}

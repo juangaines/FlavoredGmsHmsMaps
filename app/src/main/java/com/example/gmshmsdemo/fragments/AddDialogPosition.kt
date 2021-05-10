@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.gmshmsdemo.model.LandMarkObject
+import com.example.gmshmsdemo.model.maps.LandMarkObject
 import com.example.gmshmsdemo.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -32,7 +32,7 @@ class AddDialogPosition private constructor (val initialPosition: LandMarkObject
             false
         )
         val walkButton= rootView.findViewById<Button>(R.id.walk)
-        val cyclingButton= rootView.findViewById<Button>(R.id.cycling)
+        //val cyclingButton= rootView.findViewById<Button>(R.id.cycling)
         val driveButton= rootView.findViewById<Button>(R.id.drive)
         val initialPositionText= rootView.findViewById<TextView>(R.id.initial_destination)
         val finalPositionText= rootView.findViewById<TextView>(R.id.arrival_destination)
@@ -41,10 +41,10 @@ class AddDialogPosition private constructor (val initialPosition: LandMarkObject
             onSuccess("walking")
             dismiss()
         }
-        cyclingButton.setOnClickListener {
+/*        cyclingButton.setOnClickListener {
             onSuccess("bicycling")
             dismiss()
-        }
+        }*/
         driveButton.setOnClickListener {
             onSuccess("driving")
             dismiss()

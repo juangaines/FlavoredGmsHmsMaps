@@ -16,12 +16,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gmshmsdemo.fragments.AddDialogPosition
-import com.example.gmshmsdemo.model.Destination
-import com.example.gmshmsdemo.model.Origin
-import com.example.gmshmsdemo.model.RouteQuery
+import com.example.gmshmsdemo.model.maps.Coordinates
+import com.example.gmshmsdemo.model.maps.RouteBody
 import com.example.gmshmsdemo.network.Result
 import com.example.gmshmsdemo.utils.UtilsAndroid
 import com.example.gmshmsdemo.utils.UtilsAndroid.Companion.REQUEST_TURN_DEVICE_LOCATION_ON
+import com.huawei.hms.site.api.SearchResultListener
+import com.huawei.hms.site.api.SearchService
+import com.huawei.hms.site.api.SearchServiceFactory
+import com.huawei.hms.site.api.model.DetailSearchRequest
+import com.huawei.hms.site.api.model.DetailSearchResponse
+import com.huawei.hms.site.api.model.SearchStatus
+import com.huawei.hms.site.api.model.Site
+import com.huawei.hms.site.widget.SearchIntent
+import kotlinx.android.synthetic.huawei.activity_maps.*
+import java.net.URLEncoder
 
 
 class MapsActivity : AppCompatActivity() {
@@ -30,6 +39,7 @@ class MapsActivity : AppCompatActivity() {
     private lateinit var mLocation: LocationHelper
     private lateinit var viewModel: MapViewModel
     private var color:Int?=null
+    private lateinit var searchIntent: SearchIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +52,17 @@ class MapsActivity : AppCompatActivity() {
         mLocation = LocationHelper(this,mMap)
         checkPermissionsLocation()
         initObservables()
+        initViews()
+    }
+
+    private fun initViews() {
+        searchSite.setOnClickListener {
+            searchIntent = SearchIntent()
+            val apiKeyEncoded=URLEncoder.encode(BuildConfig.API_KEY, "UTF-8")
+            searchIntent.setApiKey(apiKeyEncoded)
+            val intent = searchIntent.getIntent(this)
+            startActivityForResult(intent, SearchIntent.SEARCH_REQUEST_CODE)
+        }
     }
 
     private fun initObservables() {
@@ -62,8 +83,19 @@ class MapsActivity : AppCompatActivity() {
         viewModel.listOfMarkers.observe(this, Observer { coordinates->
 
             if(coordinates.size>=2){
+                mMap.moveCameraWithBounds(coordinates)
                 val dialog=AddDialogPosition.newInstance(coordinates[0],coordinates[1]) {type->
-                    viewModel.getRoute( RouteQuery( Origin(coordinates[0].latitude!!, coordinates[0].longitude), Destination(coordinates[1].latitude!!,coordinates[1].longitude) ),type)
+                    viewModel.getRoute(
+                        RouteBody(
+                            Coordinates(
+                                coordinates[0].latitude!!,
+                                coordinates[0].longitude
+                            ),
+                            Coordinates(
+                                coordinates[1].latitude!!,
+                                coordinates[1].longitude
+                            )
+                        ),type)
                     viewModel.restart()
                 }
                 dialog.show(supportFragmentManager,"dialog_map")
@@ -132,6 +164,35 @@ class MapsActivity : AppCompatActivity() {
         if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON) {
             this.recreate()
         }
+
+        if (SearchIntent.SEARCH_REQUEST_CODE == requestCode) {
+            if (SearchIntent.isSuccess(resultCode)) {
+                val site: Site = searchIntent.getSiteFromIntent(data)
+                val apiKeyEncoded=URLEncoder.encode(BuildConfig.API_KEY, "UTF-8")
+                val searchService: SearchService = SearchServiceFactory.create(this, apiKeyEncoded)
+                val request = DetailSearchRequest()
+                request.siteId = site.siteId
+                request.language = "es"
+                val resultListener: SearchResultListener<DetailSearchResponse> = object : SearchResultListener<DetailSearchResponse> {
+                    // Return search results upon a successful search.
+                    override fun onSearchResult(result: DetailSearchResponse?) {
+                        var siteWithInfo: Site? = null
+                        if (result == null || result.getSite().also { siteWithInfo = it } == null) {
+                            return
+                        }
+                        mMap.addMarker(siteWithInfo?.location?.lat!!, siteWithInfo?.location?.lng!!, site.name,site.formatAddress)
+                        Log.i("TAG", "siteId: ${siteWithInfo?.getSiteId()}, name: ${siteWithInfo?.getName()}")
+                    }
+
+                    override fun onSearchError(status: SearchStatus) {
+                        Log.i("TAG", "Error : ${status.getErrorCode()}  ${status.getErrorMessage()}")
+                    }
+                }
+                searchService.detailSearch(request, resultListener)
+
+            }
+        }
+
     }
 
     override fun onDestroy() {

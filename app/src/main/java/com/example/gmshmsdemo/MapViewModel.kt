@@ -5,9 +5,9 @@ import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.gmshmsdemo.model.LandMarkObject
-import com.example.gmshmsdemo.model.RouteQuery
-import com.example.gmshmsdemo.model.RouteResponse
+import com.example.gmshmsdemo.model.maps.LandMarkObject
+import com.example.gmshmsdemo.model.maps.RouteBody
+import com.example.gmshmsdemo.model.maps.RouteResponse
 import com.example.gmshmsdemo.network.Network
 import com.example.gmshmsdemo.network.Result
 import com.example.gmshmsdemo.utils.UtilsAndroid
@@ -37,13 +37,13 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
         _drawingColor.value= Color.BLUE
     }
 
-    fun addPosition(location:LandMarkObject){
+    fun addPosition(location: LandMarkObject){
         _listOfMarkers.value?.add(location)
         _listOfMarkers.value=_listOfMarkers.value
     }
 
     fun getRoute(
-        route: RouteQuery,
+        route: RouteBody,
         type:String
     ) {
 

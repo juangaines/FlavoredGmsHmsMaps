@@ -1,8 +1,8 @@
 package com.example.gmshmsdemo
 
 import android.location.Location
-import com.example.gmshmsdemo.model.LandMarkObject
-import com.example.gmshmsdemo.model.Polyline
+import com.example.gmshmsdemo.model.maps.LandMarkObject
+import com.example.gmshmsdemo.model.maps.Polyline
 
 interface MapOperations {
 
@@ -14,7 +14,7 @@ interface MapOperations {
     fun setOnMapClickListener(callback: (LandMarkObject) -> Unit)
     fun setPoiClick()
     fun addGroundOverlay()
-    fun addPolyline(polyline: List<Polyline>,color:Int)
+    fun addPolyline(polyline: List<Polyline>, color:Int)
     fun animateCamera(location: Location)
     fun clear()
 }

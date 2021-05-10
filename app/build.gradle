@@ -27,6 +27,8 @@ android {
     }
 
     buildTypes {
+
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -82,12 +84,15 @@ dependencies {
     googleImplementation 'com.google.android.gms:play-services-maps:17.0.0'//Google Maps
     googleImplementation 'com.google.android.gms:play-services-location:17.0.0' //Location services
     //HMS
-    huaweiImplementation 'com.huawei.hms:maps:5.0.0.300'//Maps Kit
+    huaweiImplementation 'com.huawei.hms:maps:5.0.2.300'//Maps Kit
     huaweiImplementation 'com.huawei.hms:location:5.0.0.300'//Location kit
     huaweiImplementation 'com.huawei.hms:site:5.0.0.300'//Site kit
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.huawei.hms:base:4.0.4.301'
+    implementation 'com.huawei.hms:game:4.0.3.301'
 
 }
 
